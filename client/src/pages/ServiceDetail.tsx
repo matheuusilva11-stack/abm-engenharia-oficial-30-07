@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { useParams } from "wouter";
 import {
@@ -42,9 +43,120 @@ const iconMap: Record<string, LucideIcon> = {
   ClipboardCheck,
 };
 
+type SeoData = {
+  title: string;
+  description: string;
+};
+
+const seoData: Record<string, SeoData> = {
+  "pericias-e-assistencia-tecnica": {
+    title: "Laudo Pericial e ART em Engenharia | ABM Engenharia",
+    description:
+      "Perícias técnicas, assistência técnica, laudo pericial e ART em engenharia para empresas, processos judiciais, máquinas, equipamentos e instalações.",
+  },
+
+  "avcb-e-clcb": {
+    title: "Laudo, ART, AVCB e CLCB para Empresas | ABM Engenharia",
+    description:
+      "Regularização de AVCB e CLCB com laudo de incêndio, ART, projeto técnico e acompanhamento junto ao Corpo de Bombeiros para empresas e condomínios.",
+  },
+
+  "projetos-executivos-cad-3d-2d": {
+    title: "Projetos CAD 2D e 3D, Laudo e ART | ABM Engenharia",
+    description:
+      "Projetos executivos em CAD 2D e 3D, modelagem, detalhamento técnico, laudo e ART para máquinas, equipamentos, estruturas e instalações industriais.",
+  },
+
+  "reclassificacao-de-monta-e-desmanche": {
+    title: "Laudo de Recuperabilidade e ART Veicular | ABM Engenharia",
+    description:
+      "Laudo de recuperabilidade, ART veicular, reclassificação de monta e responsável técnico para desmanches e desmontadoras de veículos.",
+  },
+
+  "sistemas-transportadores-e-nr11": {
+    title:
+      "Laudo NR-11 e ART para Sistemas Transportadores | ABM Engenharia",
+    description:
+      "Laudo técnico NR-11 e ART para sistemas transportadores, empilhadeiras, pontes rolantes, talhas, guindastes e movimentação de materiais.",
+  },
+
+  "maquinas-pesadas": {
+    title: "Laudo e ART para Máquinas Pesadas | ABM Engenharia",
+    description:
+      "Inspeção, laudo técnico e ART para máquinas pesadas, tratores, escavadeiras, pás carregadeiras, guindastes e equipamentos de construção.",
+  },
+
+  "sistema-de-ar-condicionado-pmoc": {
+    title: "PMOC, Laudo e ART para Ar-Condicionado | ABM Engenharia",
+    description:
+      "Elaboração de PMOC, laudo técnico e ART para sistemas de ar-condicionado, climatização, manutenção preventiva e conformidade legal.",
+  },
+
+  "pgd-playground-e-brinquedos": {
+    title: "Laudo e ART para Playground e Brinquedos | ABM Engenharia",
+    description:
+      "Inspeção, laudo técnico e ART para playground, brinquedos de parques, condomínios, escolas, hotéis e áreas de recreação infantil.",
+  },
+
+  "linha-de-vida-e-ancoragem-nr35": {
+    title: "Laudo e ART de Linha de Vida e NR-35 | ABM Engenharia",
+    description:
+      "Projeto, inspeção, laudo técnico e ART de linha de vida, pontos de ancoragem e sistemas de proteção para trabalho em altura conforme NR-35.",
+  },
+
+  "relatorios-tecnicos-de-conformidade": {
+    title:
+      "Laudo, ART e Relatório Técnico de Conformidade | ABM Engenharia",
+    description:
+      "Laudo, ART e relatório técnico de conformidade para máquinas, equipamentos, instalações, auditorias, inspeções e regularização de empresas.",
+  },
+};
+
 export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const service = slug ? getServiceBySlug(slug) : undefined;
+
+    useEffect(() => {
+    const currentSeo = service ? seoData[service.slug] : undefined;
+    const previousTitle = document.title;
+
+    let metaDescription =
+      document.querySelector<HTMLMetaElement>('meta[name="description"]');
+
+    const metaDescriptionAlreadyExisted = Boolean(metaDescription);
+    const previousDescription =
+      metaDescription?.getAttribute("content") ?? null;
+
+    document.title =
+      currentSeo?.title ??
+      (service
+        ? `Laudo e ART - ${service.title} | ABM Engenharia`
+        : "Página não encontrada | ABM Engenharia");
+
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.name = "description";
+      document.head.appendChild(metaDescription);
+    }
+
+    metaDescription.content =
+      currentSeo?.description ??
+      (service
+        ? `${service.shortDescription} Solicite laudo técnico e ART com a ABM Engenharia.`
+        : "Página não encontrada no site da ABM Engenharia.");
+
+    return () => {
+      document.title = previousTitle;
+
+      if (!metaDescription) return;
+
+      if (metaDescriptionAlreadyExisted && previousDescription !== null) {
+        metaDescription.content = previousDescription;
+      } else {
+        metaDescription.remove();
+      }
+    };
+  }, [service]);
   const heroRef = useScrollReveal<HTMLDivElement>();
   const benefitsRef = useScrollReveal<HTMLDivElement>();
   const ctaRef = useScrollReveal<HTMLDivElement>();
