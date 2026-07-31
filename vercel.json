@@ -1,4 +1,36 @@
 {
+  "redirects": [
+    {
+      "source": "/servicos/laudo-pericia",
+      "destination": "/servico/pericias-e-assistencia-tecnica",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/laudo-pericia.html",
+      "destination": "/servico/pericias-e-assistencia-tecnica",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/laudo-maquinas-pesadas",
+      "destination": "/servico/maquinas-pesadas",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/laudo-maquinas-pesadas.html",
+      "destination": "/servico/maquinas-pesadas",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/laudo-playground",
+      "destination": "/servico/pgd-playground-e-brinquedos",
+      "permanent": true
+    },
+    {
+      "source": "/servicos/laudo-playground.html",
+      "destination": "/servico/pgd-playground-e-brinquedos",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
