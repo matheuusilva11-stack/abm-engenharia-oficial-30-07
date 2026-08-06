@@ -116,7 +116,7 @@ export const services: ServiceData[] = [
     slug: "avcb-e-clcb",
     title: "AVCB e CLCB",
     shortDescription:
-      "Análise de Viabilidade de Compartimentação e Certificado de Licenciamento do Corpo de Bombeiros.",
+      "Auto de Vistoria do Corpo de Bombeiros e Certificado de Licença do Corpo de Bombeiros.",
     icon: "Flame",
     image: "/bg-avcb.png",
     fullDescription: [
